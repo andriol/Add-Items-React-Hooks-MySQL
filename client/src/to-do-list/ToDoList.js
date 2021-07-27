@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import uuid from "react-uuid";
+import axios from "axios";
 
 function ToDoList() {
   const [listItem, setListItem] = useState([]);
@@ -7,8 +8,25 @@ function ToDoList() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (item) {
       const singleItem = { id: uuid(), item };
+
+      fetch("http://localhost:8080/", {
+        method: "POST",
+        body: JSON.stringify(singleItem),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then((response) => response.json())
+        //Then with the data from the response in JSON...
+        .then((json) => {
+          console.log(json);
+        })
+        //Then with the error genereted...
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+
       console.log(singleItem);
       setListItem((item) => {
         return [...item, singleItem];
@@ -18,6 +36,7 @@ function ToDoList() {
       console.log("empty value");
     }
   };
+
   return (
     <>
       <form className="form">
@@ -48,3 +67,11 @@ function ToDoList() {
 }
 
 export default ToDoList;
+
+//  fetch("http://localhost:8080/", {
+//    method: "post",
+//    headers: { "Content-Type": "application/json" },
+//    body: JSON.stringify({ singleItem }),
+//  })
+//    .then((res) => res.json())
+//    .then((json) => setItem(json.singleItem));
