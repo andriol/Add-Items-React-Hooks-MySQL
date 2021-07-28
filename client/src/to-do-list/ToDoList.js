@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import uuid from "react-uuid";
 import axios from "axios";
+
+const url = "http://localhost:8080/";
 
 function ToDoList() {
   const [listItem, setListItem] = useState([]);
@@ -12,7 +14,7 @@ function ToDoList() {
     if (item) {
       const singleItem = { id: uuid(), item };
 
-      fetch("http://localhost:8080/", {
+      fetch(url, {
         method: "POST",
         body: JSON.stringify(singleItem),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -22,20 +24,25 @@ function ToDoList() {
         .then((json) => {
           console.log(json);
         })
-        //Then with the error genereted...
+        //Then with the error generated...
         .catch((error) => {
           console.error("Error:", error);
         });
 
-      console.log(singleItem);
-      setListItem((item) => {
-        return [...item, singleItem];
-      });
       setItem("");
     } else {
       console.log("empty value");
     }
   };
+
+  const getItems = async () => {
+    const response = await fetch(url);
+    const listItem = await response.json();
+    setListItem(listItem);
+  };
+  useEffect(() => {
+    getItems();
+  }, []);
 
   return (
     <>
@@ -67,11 +74,3 @@ function ToDoList() {
 }
 
 export default ToDoList;
-
-//  fetch("http://localhost:8080/", {
-//    method: "post",
-//    headers: { "Content-Type": "application/json" },
-//    body: JSON.stringify({ singleItem }),
-//  })
-//    .then((res) => res.json())
-//    .then((json) => setItem(json.singleItem));
