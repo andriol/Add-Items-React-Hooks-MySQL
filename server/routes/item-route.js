@@ -11,6 +11,18 @@ router.route("/").get((req, res) => {
     })
     .catch((err) => res.send("error getting items data"));
 });
+
+router.route("/:id").get((req, res) => {
+  knex
+    .select("*")
+    .from("items")
+    .where("id", req.params.id)
+    .then((data) => {
+      res.json(data[0]);
+    })
+    .catch((err) => res.send("error getting items data"));
+});
+
 router.route("/").post((req, res) => {
   knex
 
@@ -21,6 +33,21 @@ router.route("/").post((req, res) => {
     })
     .catch(() => {
       res.status(400).json({ message: "Error can't create item" });
+    });
+});
+router.route("/:id").delete((req, res) => {
+  knex
+    .select()
+    .where("id", req.params.id)
+    .from("items")
+    .del()
+    .then(function () {
+      res
+        .status(200)
+        .json({ message: `item with id ${req.params.id} deleted` });
+    })
+    .catch(() => {
+      res.status(400).json({ message: "can't delete item" });
     });
 });
 module.exports = router;

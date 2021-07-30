@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import uuid from "react-uuid";
 import axios from "axios";
 
-const url = "http://localhost:8080/";
+const url = "http://localhost:8081/";
 
 function ToDoList() {
   const [listItem, setListItem] = useState([]);
@@ -43,6 +43,7 @@ function ToDoList() {
   useEffect(() => {
     getItems();
   }, []);
+  console.log(listItem);
 
   return (
     <>
@@ -63,9 +64,46 @@ function ToDoList() {
       </form>
       {listItem.map((singleItem) => {
         const { id, item } = singleItem;
+        console.log(singleItem);
+
+        // const deleteData = async (id) => {
+        //   const response = await fetch(`http://localhost:8081/${id}`, {
+        //     method: "DELETE",
+        //     headers: {
+        //       headers: { "Content-type": "application/json; charset=UTF-8" },
+        //     },
+        //     body: JSON.stringify(singleItem),
+        //   });
+
+        //   const data = await response.json();
+
+        //   // now do whatever you want with the data
+        //   console.log(singleItem);
+        // };
+
+        // deleteData();
+        const deleteData = () => {
+          fetch(`http://localhost:8081/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: null,
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) =>
+              // this is the data we get after putting our data, do whatever you want with this data
+              console.log(data)
+            );
+        };
         return (
           <div key={id} className="item">
             <h2>{item}</h2>
+            <button type="submit" onClick={deleteData}>
+              Remove Item
+            </button>
           </div>
         );
       })}
