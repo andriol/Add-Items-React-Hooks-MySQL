@@ -61,6 +61,7 @@ function ToDoList() {
             name="item"
             value={item}
             placeholder="Name"
+            autoComplete="off"
             onChange={(e) => setItem(e.target.value)}
           />
           <input
@@ -69,6 +70,7 @@ function ToDoList() {
             name="quanity"
             value={quantity}
             placeholder="Quantity"
+            autoComplete="off"
             onChange={(e) => setQuantity(e.target.value)}
           />
         </div>
