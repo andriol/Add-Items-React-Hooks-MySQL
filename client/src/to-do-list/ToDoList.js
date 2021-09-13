@@ -84,6 +84,7 @@ function ToDoList() {
 
         // deleteData();
         const deleteData = () => {
+          console.log(deleteData);
           fetch(`http://localhost:8081/${id}`, {
             method: "DELETE",
             headers: {
