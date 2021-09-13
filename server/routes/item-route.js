@@ -26,7 +26,7 @@ router.route("/:id").get((req, res) => {
 router.route("/").post((req, res) => {
   knex
 
-    .insert({ item: req.body.item })
+    .insert({ item: req.body.item, quantity: req.body.quantity })
     .into("items")
     .then((data) => {
       res.json(data);

@@ -3,17 +3,19 @@ import uuid from "react-uuid";
 import axios from "axios";
 import "bootswatch/dist/sketchy/bootstrap.min.css";
 
-const url = "http://localhost:8081/";
+const url = "http://localhost:5001/";
 
 function ToDoList() {
   const [listItem, setListItem] = useState([]);
   const [item, setItem] = useState("");
+  const [quantity, setQuantity] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (item) {
-      const singleItem = { id: uuid(), item };
+      const singleItem = { id: uuid(), item, quantity };
+      console.log(singleItem);
 
       fetch(url, {
         method: "POST",
@@ -31,6 +33,7 @@ function ToDoList() {
         });
 
       setItem("");
+      setQuantity("");
     } else {
       console.log("empty value");
     }
@@ -50,13 +53,22 @@ function ToDoList() {
     <>
       <form className="form">
         <div className="form-control">
-          <label htmlFor="item">Insert Item: </label>
+          <label htmlFor="item">Insert Items: </label>
           <input
             type="text"
             className="container"
             name="item"
             value={item}
+            placeholder="Name"
             onChange={(e) => setItem(e.target.value)}
+          />
+          <input
+            type="number"
+            className="container"
+            name="quanity"
+            value={quantity}
+            placeholder="Quantity"
+            onChange={(e) => setQuantity(e.target.value)}
           />
         </div>
         <button className="btn" type="submit" onClick={handleSubmit}>
@@ -64,7 +76,7 @@ function ToDoList() {
         </button>
       </form>
       {listItem.map((singleItem) => {
-        const { id, item } = singleItem;
+        const { id, item, quantity } = singleItem;
         console.log(singleItem);
 
         // const deleteData = async (id) => {
@@ -85,7 +97,7 @@ function ToDoList() {
         // deleteData();
         const deleteData = () => {
           console.log(deleteData);
-          fetch(`http://localhost:8081/${id}`, {
+          fetch(`http://localhost:5001/${id}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",
@@ -103,6 +115,7 @@ function ToDoList() {
         return (
           <div key={id} className="item">
             <h2>{item}</h2>
+            <h2>{quantity}</h2>
             <button type="submit" onClick={deleteData}>
               Remove Item
             </button>
