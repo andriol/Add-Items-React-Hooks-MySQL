@@ -98,21 +98,6 @@ function ToDoList() {
 
         console.log(singleItem);
 
-        // const deleteData = async (id) => {
-        //   const response = await fetch(`http://localhost:8081/${id}`, {
-        //     method: "DELETE",
-        //     headers: {
-        //       headers: { "Content-type": "application/json; charset=UTF-8" },
-        //     },
-        //     body: JSON.stringify(singleItem),
-        //   });
-
-        //   const data = await response.json();
-
-        //   // now do whatever you want with the data
-        //   console.log(singleItem);
-        // };
-
         // deleteData();
         const deleteData = () => {
           console.log(deleteData);
