@@ -1,13 +1,7 @@
 export const reducer = (state, action) => {
   if (action.type === "ADD_ITEM") {
-    console.log(action.type);
-    const newItem = [...state.items, action.payload];
-    return {
-      ...state,
-      items: newItem,
-      isModalOpen: true,
-      modalContent: "Item Added",
-    };
+    //console.log(action.type);
+    return { ...state, isModalOpen: true, modalContent: "Item Added" };
   }
   if (action.type === "NO_VALUE") {
     return { ...state, isModalOpen: true, modalContent: "please enter value" };
