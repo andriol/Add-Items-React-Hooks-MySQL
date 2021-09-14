@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import uuid from "react-uuid";
 import axios from "axios";
+
 import "bootswatch/dist/sketchy/bootstrap.min.css";
 import "./ToDoList.css";
 
@@ -48,7 +49,7 @@ function ToDoList() {
   useEffect(() => {
     getItems();
   }, []);
-  console.log(listItem);
+  //console.log(listItem);
 
   return (
     <>
