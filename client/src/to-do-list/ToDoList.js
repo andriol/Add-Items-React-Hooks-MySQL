@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import uuid from "react-uuid";
 import axios from "axios";
-
+import { reducer } from "./reducer";
+import Modal from "./Modal";
 import "bootswatch/dist/sketchy/bootstrap.min.css";
 import "./ToDoList.css";
 
@@ -11,14 +12,20 @@ function ToDoList() {
   const [listItem, setListItem] = useState([]);
   const [item, setItem] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [state, dispatch] = useReducer(reducer, {
+    items: [],
+    isModalOpen: false,
+    modalContent: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (item) {
       const singleItem = { id: uuid(), item, quantity };
-      console.log(singleItem);
 
+      console.log(singleItem);
+      dispatch({ type: "ADD_ITEM", payload: singleItem });
       fetch(url, {
         method: "POST",
         body: JSON.stringify(singleItem),
@@ -37,7 +44,8 @@ function ToDoList() {
       setItem("");
       setQuantity("");
     } else {
-      console.log("empty value");
+      //console.log("empty value");
+      dispatch({ type: "NO_VALUE" });
     }
   };
 
@@ -50,9 +58,15 @@ function ToDoList() {
     getItems();
   }, []);
   //console.log(listItem);
-
+  const closeModal = () => {
+    dispatch({ type: "CLOSE_MODAL" });
+    console.log(closeModal);
+  };
   return (
     <>
+      {state.isModalOpen && (
+        <Modal closeModal={closeModal} modalContent={state.modalContent} />
+      )}
       <form className="form">
         <div className="form-control">
           <label htmlFor="item">Insert Items: </label>
@@ -81,6 +95,7 @@ function ToDoList() {
       </form>
       {listItem.map((singleItem) => {
         const { id, item, quantity } = singleItem;
+
         console.log(singleItem);
 
         // const deleteData = async (id) => {
@@ -101,6 +116,7 @@ function ToDoList() {
         // deleteData();
         const deleteData = () => {
           console.log(deleteData);
+          dispatch({ type: "REMOVE_ITEM", payload: "deletaData" });
           fetch(`http://localhost:5001/${id}`, {
             method: "DELETE",
             headers: {
