@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
-import uuid from "react-uuid";
-import axios from "axios";
+import * as uuid from "uuid";
 import { reducer } from "./reducer";
 import Modal from "./Modal";
 import "bootswatch/dist/sketchy/bootstrap.min.css";
